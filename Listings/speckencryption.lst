@@ -1,0 +1,134 @@
+A51 MACRO ASSEMBLER  SPECKENCRYPTION                                                      02/11/2025 23:27:51 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\speckencryption.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE speckencryption.a51 SET(SMALL) DEBUG PRINT(.\Listings\speckencryption.l
+                      st) OBJECT(.\Objects\speckencryption.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+                       2     
+                       3     ; Registers Usage:
+                       4     ; R0, R1 -> Left half (L)
+                       5     ; R2, R3 -> Right half (R)
+                       6     ; R4, R5 -> Round Key (Ki)
+                       7     ; R6, R7 -> Temporary values
+                       8     
+                       9     
+0000                  10     START: 
+0000 900042           11             MOV DPTR , #KEY
+0003 7800             12             MOV R0 , #00H
+0005 7900             13             MOV R1 , #00H
+0007 7A00             14             MOV R2 , #00H 
+0009 7B00             15             MOV R3 , #00H
+                      16     ;------------------------------------------------------------------------------------------
+                             ---------
+                      17     ;       shit to be encoded 
+                      18     ;------------------------------------------------------------------------------------------
+                             ---------
+000B 7812             19             MOV R0, #12H   ; L = 0x1234 (Left half of plaintext)
+000D 7934             20             MOV R1, #34H
+000F 7A56             21             MOV R2, #56H   ; R = 0x5678 (Right half of plaintext)
+0011 7B78             22             MOV R3, #78H
+                      23             
+0013 113D             24             CALL KEY_EXPANSION 
+0015 1119             25             CALL ENCRYPTION 
+0017 80FE             26             SJMP $ 
+                      27     ;------------------------------------------------------------------------------------------
+                             ----------
+                      28     ;-----------------------------
+                      29     ; SPECK 32/64 ENCRYPTION 
+                      30     ;-----------------------------
+                      31     
+0019                  32     ENCRYPTION:
+0019 7E20             33             MOV R6, #32 ; number of rounds for 32/64 is 22 
+001B                  34             ENC_LOOP:
+001B 1136             35                     CALL LOAD_ROUND_KEY
+001D 1122             36                     CALL ROUND_FUNCTION 
+001F DEFA             37                     DJNZ R6 , ENC_LOOP
+0021 22               38                     RET
+                      39     ;------------------------------
+                      40     ; SPECK ROUND FUNCTION
+                      41     ;------------------------------
+                      42     
+0022                  43     ROUND_FUNCTION:
+0022 EB               44             MOV A, R3 
+0023 C4               45             SWAP A
+0024 FB               46             MOV R3,A
+                      47             
+0025 EA               48             MOV A,R2
+0026 68               49             XRL A,R0
+0027 FA               50             MOV R2,A
+                      51             
+0028 EA               52             MOV A, R2
+0029 28               53             ADD A, R0
+002A F8               54             MOV R0, A
+A51 MACRO ASSEMBLER  SPECKENCRYPTION                                                      02/11/2025 23:27:51 PAGE     2
+
+                      55             
+002B E8               56             MOV A , R0 
+002C 33               57             RLC A
+002D 33               58             RLC A
+002E 33               59             RLC A 
+002F F8               60             MOV R0, A 
+                      61             
+0030 E9               62             MOV A , R1
+0031 33               63             RLC A 
+0032 33               64             RLC A 
+0033 33               65             RLC A
+0034 F9               66             MOV R1,A 
+0035 22               67             RET 
+                      68             
+                      69             
+                      70     ;--------------------------
+                      71     ; LOAD ROUND KEY
+                      72     ;--------------------------
+                      73     
+0036                  74     LOAD_ROUND_KEY:
+0036 EC               75             MOV A,R4 
+0037 6A               76             XRL A, R2
+0038 FC               77             MOV R4, A
+                      78             
+0039 ED               79             MOV A,R5 
+003A 6B               80             XRL A, R3
+003B FD               81             MOV R5, A
+003C 22               82             RET
+                      83     ; -------------------------
+                      84     ; Key Expansion
+                      85     ; -------------------------
+003D                  86     KEY_EXPANSION:
+003D 7CDE             87         MOV R4, #0DEH            ; Example Key Part 1
+003F 7DAD             88         MOV R5, #0ADH            ; Example Key Part 2
+0041 22               89         RET
+                      90     
+                      91     ; -------------------------
+                      92     ; Data Section
+                      93     ; -------------------------
+0042                  94     KEY:
+0042 DEADBEEF         95         DB 0DEH, 0ADH, 0BEH, 0EFH, 0CAH, 0FEH , 0BAH , 0BEH ; 64-bit key
+0046 CAFEBABE                
+                      96     
+                      97     END
+A51 MACRO ASSEMBLER  SPECKENCRYPTION                                                      02/11/2025 23:27:51 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ENCRYPTION . . . .  C ADDR   0019H   A   
+ENC_LOOP . . . . .  C ADDR   001BH   A   
+KEY. . . . . . . .  C ADDR   0042H   A   
+KEY_EXPANSION. . .  C ADDR   003DH   A   
+LOAD_ROUND_KEY . .  C ADDR   0036H   A   
+ROUND_FUNCTION . .  C ADDR   0022H   A   
+START. . . . . . .  C ADDR   0000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

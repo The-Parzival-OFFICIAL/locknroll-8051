@@ -1,0 +1,3 @@
+".\Objects\speckencryption.obj" 
+TO ".\Objects\locksystem" 
+PRINT(".\Listings\locksystem.m51") RAMSIZE(256) 

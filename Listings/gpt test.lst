@@ -1,0 +1,296 @@
+A51 MACRO ASSEMBLER  GPT_TEST                                                             02/11/2025 23:28:52 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE gpt test.a51 SET(SMALL) DEBUG PRINT(.\Listings\gpt test.lst) OBJECT(.\O
+                      bjects\gpt test.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+                       2     ; -----------------------------------------
+                       3     ; Registers Usage:
+                       4     ; R0, R1 -> Left half (L) of plaintext (user password)
+                       5     ; R2, R3 -> Right half (R) of plaintext (user password)
+                       6     ; R4, R5 -> Round Key (Ki)
+                       7     ; R6     -> Round Counter
+                       8     ; R7     -> Temporary storage
+                       9     ; R8, R9 -> Left half (L) of stored password
+                      10     ; R10, R11 -> Right half (R) of stored password
+                      11     ; R12    -> Attempt Counter
+                      12     ; -----------------------------------------
+                      13     
+0000                  14     START:
+0000                  15         MOV R12, #05H            ; Set maximum attempts (5)
+*** _________________________________^
+*** ERROR #A45 IN 15 (gpt test.a51, LINE 15): UNDEFINED SYMBOL (PASS-2)
+0003 113E             16         CALL LOAD_STORED_PASSWORD ; Load stored encrypted password from EEPROM
+                      17     
+0005                  18     ENTER_PASSWORD:
+0005 1176             19         CALL CHECK_RESET_SEQUENCE ; Check if user wants to reset password
+0007 111A             20         CALL READ_PASSWORD        ; Get user input from keypad
+0009 1123             21         CALL ENCRYPT_PASSWORD     ; Encrypt entered password
+000B 112B             22         CALL VERIFY_PASSWORD      ; Compare encrypted input with stored password
+000D 6007             23         JZ ACCESS_GRANTED         ; If match, unlock door
+                      24     
+000F                  25         DJNZ R12, ENTER_PASSWORD  ; If wrong, retry (max 5 times)
+*** __________________________________^
+*** ERROR #A45 IN 25 (gpt test.a51, LINE 25): UNDEFINED SYMBOL (PASS-2)
+0012 114B             26         CALL LOCKDOWN             ; Lock system after 5 failed attempts
+0014 80FE             27         SJMP $
+                      28     
+0016                  29     ACCESS_GRANTED:
+0016 115A             30         CALL UNLOCK_DOOR          ; Open the door
+0018 80FE             31         SJMP $
+                      32     
+                      33     ; -----------------------------------------
+                      34     ; Reads 4-digit password from keypad
+                      35     ; -----------------------------------------
+001A                  36     READ_PASSWORD:
+                      37         ; Placeholder: Read from keypad
+001A 7812             38         MOV R0, #12H   ; Example input 0x1234
+001C 7934             39         MOV R1, #34H
+001E 7A56             40         MOV R2, #56H   ; Example input 0x5678
+0020 7B78             41         MOV R3, #78H
+0022 22               42         RET
+                      43     
+                      44     ; -----------------------------------------
+                      45     ; Encrypts the entered password using SPECK 32/64
+                      46     ; -----------------------------------------
+0023                  47     ENCRYPT_PASSWORD:
+0023 9000C8           48         MOV DPTR , #KEY          ; Load encryption key
+0026 11C3             49         CALL KEY_EXPANSION       ; Expand key before encryption
+0028 119F             50         CALL ENCRYPTION          ; Encrypt user input
+002A 22               51         RET
+                      52     
+                      53     ; -----------------------------------------
+A51 MACRO ASSEMBLER  GPT_TEST                                                             02/11/2025 23:28:52 PAGE     2
+
+                      54     ; Compares encrypted input with stored encrypted password
+                      55     ; -----------------------------------------
+002B                  56     VERIFY_PASSWORD:
+002B E8               57         MOV A, R0
+002C                  58         CJNE A, R8, NOT_MATCH
+*** _____________________________________^
+*** ERROR #A45 IN 58 (gpt test.a51, LINE 58): UNDEFINED SYMBOL (PASS-2)
+002F E9               59         MOV A, R1
+0030                  60         CJNE A, R9, NOT_MATCH
+*** _____________________________________^
+*** ERROR #A45 IN 60 (gpt test.a51, LINE 60): UNDEFINED SYMBOL (PASS-2)
+0033 EA               61         MOV A, R2
+0034                  62         CJNE A, R10, NOT_MATCH
+*** _____________________________________^
+*** ERROR #A45 IN 62 (gpt test.a51, LINE 62): UNDEFINED SYMBOL (PASS-2)
+0037 EB               63         MOV A, R3
+0038                  64         CJNE A, R11, NOT_MATCH
+*** _____________________________________^
+*** ERROR #A45 IN 64 (gpt test.a51, LINE 64): UNDEFINED SYMBOL (PASS-2)
+003B E4               65         CLR A                     ; Set Zero flag (match found)
+003C 22               66         RET
+                      67     
+003D                  68     NOT_MATCH:
+003D                  69         SETB A                    ; Clear Zero flag (no match)
+*** __________________________________^
+*** ERROR #A40 IN 69 (gpt test.a51, LINE 69): INVALID REGISTER
+003D 22               70         RET
+                      71     
+                      72     ; -----------------------------------------
+                      73     ; Load stored encrypted password from EEPROM
+                      74     ; -----------------------------------------
+003E                  75     LOAD_STORED_PASSWORD:
+003E                  76         MOV R8, 50H  ; Load stored encrypted password (Left half)
+*** _________________________________^
+*** ERROR #A45 IN 76 (gpt test.a51, LINE 76): UNDEFINED SYMBOL (PASS-2)
+0041                  77         MOV R9, 51H
+*** _________________________________^
+*** ERROR #A45 IN 77 (gpt test.a51, LINE 77): UNDEFINED SYMBOL (PASS-2)
+0044                  78         MOV R10, 52H ; Load stored encrypted password (Right half)
+*** _________________________________^
+*** ERROR #A45 IN 78 (gpt test.a51, LINE 78): UNDEFINED SYMBOL (PASS-2)
+0047                  79         MOV R11, 53H
+*** _________________________________^
+*** ERROR #A45 IN 79 (gpt test.a51, LINE 79): UNDEFINED SYMBOL (PASS-2)
+004A 22               80         RET
+                      81     
+                      82     ; -----------------------------------------
+                      83     ; Lock the system after 5 failed attempts
+                      84     ; -----------------------------------------
+004B                  85     LOCKDOWN:
+                      86         ; Display "LOCKED" on LCD
+004B 900053           87         MOV DPTR, #LOCK_MSG
+004E                  88         CALL DISPLAY_LCD
+*** __________________________________^
+*** ERROR #A45 IN 88 (gpt test.a51, LINE 88): UNDEFINED SYMBOL (PASS-2)
+0051 80FE             89         SJMP $ ; Halt system
+                      90     
+0053                  91     LOCK_MSG:
+0053 4C4F434B         92         DB "LOCKED", 00H
+0057 454400                  
+                      93     
+                      94     ; -----------------------------------------
+                      95     ; Unlock door
+                      96     ; -----------------------------------------
+005A                  97     UNLOCK_DOOR:
+                      98         ; Display "ACCESS GRANTED" on LCD
+A51 MACRO ASSEMBLER  GPT_TEST                                                             02/11/2025 23:28:52 PAGE     3
+
+005A 900067           99         MOV DPTR, #ACCESS_MSG
+005D                 100         CALL DISPLAY_LCD
+*** __________________________________^
+*** ERROR #A45 IN 100 (gpt test.a51, LINE 100): UNDEFINED SYMBOL (PASS-2)
+                     101     
+                     102         ; Open door (Motor Control)
+0060 D290            103         SETB P1.0  ; Motor ON (example)
+0062                 104         ACALL DELAY
+*** ___________________________________^
+*** ERROR #A45 IN 104 (gpt test.a51, LINE 104): UNDEFINED SYMBOL (PASS-2)
+0064 C290            105         CLR P1.0   ; Motor OFF
+0066 22              106         RET
+                     107     
+0067                 108     ACCESS_MSG:
+0067 41434345        109         DB "ACCESS GRANTED", 00H
+006B 53532047                
+006F 52414E54                
+0073 454400                  
+                     110     
+                     111     ; -----------------------------------------
+                     112     ; Check for password reset sequence (e.g., holding '*' for 3s)
+                     113     ; -----------------------------------------
+0076                 114     CHECK_RESET_SEQUENCE:
+                     115         ; Placeholder: Detect special keypad sequence
+0076 20B201          116         JB P3.2, RESET_PASSWORD   ; If '*' key is pressed for reset
+0079 22              117         RET
+                     118     
+                     119     ; -----------------------------------------
+                     120     ; Reset password process
+                     121     ; -----------------------------------------
+007A                 122     RESET_PASSWORD:
+007A 900087          123         MOV DPTR, #RESET_MSG
+007D                 124         CALL DISPLAY_LCD
+*** __________________________________^
+*** ERROR #A45 IN 124 (gpt test.a51, LINE 124): UNDEFINED SYMBOL (PASS-2)
+0080 111A            125         CALL READ_PASSWORD       ; Get new password from user
+0082 1123            126         CALL ENCRYPT_PASSWORD    ; Encrypt the new password
+0084 1196            127         CALL STORE_PASSWORD      ; Save encrypted password to EEPROM
+0086 22              128         RET
+                     129     
+0087                 130     RESET_MSG:
+0087 52455345        131         DB "RESET PASSWORD", 00H
+008B 54205041                
+008F 5353574F                
+0093 524400                  
+                     132     
+                     133     ; -----------------------------------------
+                     134     ; Store encrypted password in EEPROM
+                     135     ; -----------------------------------------
+0096                 136     STORE_PASSWORD:
+0096 8850            137         MOV 50H, R0  ; Store encrypted password (Left half)
+0098 8951            138         MOV 51H, R1
+009A 8A52            139         MOV 52H, R2  ; Store encrypted password (Right half)
+009C 8B53            140         MOV 53H, R3
+009E 22              141         RET
+                     142     
+                     143     ; -----------------------------------------
+                     144     ; Encryption Process (SPECK 32/64)
+                     145     ; -----------------------------------------
+009F                 146     ENCRYPTION:
+009F 7E16            147         MOV R6, #22
+00A1                 148     ENC_LOOP:
+00A1 11BC            149         CALL LOAD_ROUND_KEY
+00A3 11A8            150         CALL ROUND_FUNCTION 
+00A5 DEFA            151         DJNZ R6 , ENC_LOOP
+00A7 22              152         RET
+A51 MACRO ASSEMBLER  GPT_TEST                                                             02/11/2025 23:28:52 PAGE     4
+
+                     153             
+00A8                 154     ROUND_FUNCTION:
+00A8 EB              155         MOV A, R3 
+00A9 C4              156         SWAP A
+00AA FB              157         MOV R3,A
+                     158         
+00AB EA              159         MOV A,R2
+00AC 68              160         XRL A,R0
+00AD FA              161         MOV R2,A
+                     162         
+00AE EA              163         MOV A, R2
+00AF 28              164         ADD A, R0
+00B0 F8              165         MOV R0, A
+                     166         
+00B1 E8              167         MOV A , R0 
+00B2 33              168         RLC A
+00B3 33              169         RLC A
+00B4 33              170         RLC A 
+00B5 F8              171         MOV R0, A 
+                     172         
+00B6 E9              173         MOV A , R1
+00B7 33              174         RLC A 
+00B8 33              175         RLC A 
+00B9 33              176         RLC A
+00BA F9              177         MOV R1,A 
+00BB 22              178         RET 
+                     179     
+00BC                 180     LOAD_ROUND_KEY:
+00BC EC              181         MOV A,R4 
+00BD 6A              182         XRL A, R2
+00BE FC              183         MOV R4, A
+                     184         
+00BF ED              185         MOV A,R5 
+00C0 6B              186         XRL A, R3
+00C1 FD              187         MOV R5, A
+00C2 22              188         RET
+                     189     
+00C3                 190     KEY_EXPANSION:
+00C3 7CDE            191         MOV R4, #0DEH
+00C5 7DAD            192         MOV R5, #0ADH
+00C7 22              193         RET
+                     194     
+00C8                 195     KEY:
+00C8 DEADBEEF        196         DB 0DEH, 0ADH, 0BEH, 0EFH, 0CAH, 0FEH , 0BAH , 0BEH
+00CC CAFEBABE                
+                     197     END
+A51 MACRO ASSEMBLER  GPT_TEST                                                             02/11/2025 23:28:52 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E               T Y P E  V A L U E   ATTRIBUTES
+
+ACCESS_GRANTED . . .  C ADDR   0016H   A   
+ACCESS_MSG . . . . .  C ADDR   0067H   A   
+CHECK_RESET_SEQUENCE  C ADDR   0076H   A   
+DELAY. . . . . . . .    ----   -----       
+DISPLAY_LCD. . . . .    ----   -----       
+ENCRYPTION . . . . .  C ADDR   009FH   A   
+ENCRYPT_PASSWORD . .  C ADDR   0023H   A   
+ENC_LOOP . . . . . .  C ADDR   00A1H   A   
+ENTER_PASSWORD . . .  C ADDR   0005H   A   
+KEY. . . . . . . . .  C ADDR   00C8H   A   
+KEY_EXPANSION. . . .  C ADDR   00C3H   A   
+LOAD_ROUND_KEY . . .  C ADDR   00BCH   A   
+LOAD_STORED_PASSWORD  C ADDR   003EH   A   
+LOCKDOWN . . . . . .  C ADDR   004BH   A   
+LOCK_MSG . . . . . .  C ADDR   0053H   A   
+NOT_MATCH. . . . . .  C ADDR   003DH   A   
+P1 . . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . . .  D ADDR   00B0H   A   
+R10. . . . . . . . .    ----   -----       
+R11. . . . . . . . .    ----   -----       
+R12. . . . . . . . .    ----   -----       
+R8 . . . . . . . . .    ----   -----       
+R9 . . . . . . . . .    ----   -----       
+READ_PASSWORD. . . .  C ADDR   001AH   A   
+RESET_MSG. . . . . .  C ADDR   0087H   A   
+RESET_PASSWORD . . .  C ADDR   007AH   A   
+ROUND_FUNCTION . . .  C ADDR   00A8H   A   
+START. . . . . . . .  C ADDR   0000H   A   
+STORE_PASSWORD . . .  C ADDR   0096H   A   
+UNLOCK_DOOR. . . . .  C ADDR   005AH   A   
+VERIFY_PASSWORD. . .  C ADDR   002BH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 15 ERROR(S)
