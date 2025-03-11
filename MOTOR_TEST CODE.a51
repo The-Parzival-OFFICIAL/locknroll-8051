@@ -1,3 +1,13 @@
+
+;//TODO: 
+;  check if enable is shorted in the circuit else:
+;   add enable line code in the belo code 
+
+
+
+
+
+
 ;-------------------------------------
 ; PORT CONNECTION MAP 
 ;-------------------------------------
@@ -16,7 +26,7 @@ ORG 0000H
 ;------------------------------------------
 ;  defined constants 
 ;------------------------------------------
-MOTOR_DELAY: DB 14;
+MOTOR_DELAY: DB 28;  multiple of 14 to add seconds delay ; 1 here is 0.0711 seconds
 	SJMP START
 ORG 0030H;
 	; ROTATE THE MOTOR FOR SOME DELAY THAT SETS IT TO 
@@ -60,7 +70,7 @@ ORG 0030H;
 	START: 
 		ACALL OPEN_LOCK;
 		ACALL CLOSE_LOCK; 
-		SJMP START;
+		;SJMP START;
 		END
 		
 		

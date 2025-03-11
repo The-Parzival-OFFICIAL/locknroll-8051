@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/11/2025  21:39:00  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/11/2025  21:59:02  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -20,7 +20,7 @@ LINK MAP OF MODULE:  .\Objects\locksystem (MOTOR_TEST_CODE)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     0069H     ABSOLUTE     
+            CODE    0000H     0067H     ABSOLUTE     
 
 
 
@@ -44,45 +44,44 @@ SYMBOL TABLE OF MODULE:  .\Objects\locksystem (MOTOR_TEST_CODE)
   D:008BH         SYMBOL        TL1
   D:0089H         SYMBOL        TMOD
   B:0088H.6       SYMBOL        TR1
-  C:0001H         LINE#         20
-  C:0030H         LINE#         25
-  C:0032H         LINE#         26
-  C:0034H         LINE#         27
-  C:0037H         LINE#         28
-  C:0039H         LINE#         29
-  C:003AH         LINE#         32
-  C:003CH         LINE#         33
-  C:003EH         LINE#         34
-  C:0041H         LINE#         35
-  C:0043H         LINE#         36
-  C:0044H         LINE#         39
-  C:0045H         LINE#         40
-  C:0046H         LINE#         41
-  C:0047H         LINE#         43
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/11/2025  21:39:00  PAGE 2
+  C:0001H         LINE#         30
+  C:0030H         LINE#         35
+  C:0032H         LINE#         36
+  C:0034H         LINE#         37
+  C:0037H         LINE#         38
+  C:0039H         LINE#         39
+  C:003AH         LINE#         42
+  C:003CH         LINE#         43
+  C:003EH         LINE#         44
+  C:0041H         LINE#         45
+  C:0043H         LINE#         46
+  C:0044H         LINE#         49
+  C:0045H         LINE#         50
+  C:0046H         LINE#         51
+  C:0047H         LINE#         53
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/11/2025  21:59:02  PAGE 2
 
 
-  C:0049H         LINE#         44
-  C:004AH         LINE#         45
-  C:004DH         LINE#         46
-  C:004EH         LINE#         49
-  C:0051H         LINE#         50
-  C:0053H         LINE#         51
-  C:0055H         LINE#         52
-  C:0057H         LINE#         53
-  C:0059H         LINE#         54
-  C:005BH         LINE#         55
-  C:005EH         LINE#         56
-  C:0060H         LINE#         57
-  C:0062H         LINE#         58
-  C:0063H         LINE#         61
-  C:0065H         LINE#         62
-  C:0067H         LINE#         63
+  C:0049H         LINE#         54
+  C:004AH         LINE#         55
+  C:004DH         LINE#         56
+  C:004EH         LINE#         59
+  C:0051H         LINE#         60
+  C:0053H         LINE#         61
+  C:0055H         LINE#         62
+  C:0057H         LINE#         63
+  C:0059H         LINE#         64
+  C:005BH         LINE#         65
+  C:005EH         LINE#         66
+  C:0060H         LINE#         67
+  C:0062H         LINE#         68
+  C:0063H         LINE#         71
+  C:0065H         LINE#         72
   -------         ENDMOD        MOTOR_TEST_CODE
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 003CH BYTE ( 2%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 003AH BYTE ( 2%) *
 ******************************************************************************
 
-Program Size: data=8.0 xdata=0 code=105
+Program Size: data=8.0 xdata=0 code=103
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
