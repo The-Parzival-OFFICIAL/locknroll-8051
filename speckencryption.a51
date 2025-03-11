@@ -1,4 +1,8 @@
 ORG 0000H
+	SJMP START
+
+
+ORG 0030H
 
 ; Registers Usage:
 ; R0, R1 -> Left half (L)

@@ -1,4 +1,4 @@
-ORG 0000H
+ORG 0030H
 ; -----------------------------------------
 ; Registers Usage:
 ; R0, R1 -> Left half (L) of plaintext (user password)

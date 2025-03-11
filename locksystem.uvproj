@@ -377,9 +377,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>gpt test.a51</FileName>
+              <FileName>MOTOR_TEST CODE.a51</FileName>
               <FileType>2</FileType>
-              <FilePath>.\gpt test.a51</FilePath>
+              <FilePath>.\MOTOR_TEST CODE.a51</FilePath>
             </File>
           </Files>
         </Group>

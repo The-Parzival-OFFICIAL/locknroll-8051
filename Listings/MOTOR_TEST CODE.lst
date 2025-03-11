@@ -1,0 +1,106 @@
+A51 MACRO ASSEMBLER  MOTOR_TEST_CODE                                                      03/11/2025 21:45:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\MOTOR_TEST CODE.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE MOTOR_TEST CODE.a51 SET(SMALL) DEBUG PRINT(.\Listings\MOTOR_TEST CODE.l
+                      st) OBJECT(.\Objects\MOTOR_TEST CODE.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;-------------------------------------
+                       2     ; PORT CONNECTION MAP 
+                       3     ;-------------------------------------
+                       4     ; PORT 2 IS ASSIGNED TO MOTOR FOR NOW 
+                       5     ;  ----------------------------
+                       6     ; | PORT IN MC |   PIN  IN     | 
+                       7     ; | / OTR CNN  |    LM293D     |
+                       8     ; |------------|---------------|
+                       9     ; |PORT 2.0    |EN1/2 (PIN 1)  |
+                      10     ; |PORT 2.1    |IN1 (PIN 2)    |
+                      11     ; |PORT 2.2    |IN2 (PIN 7)    |
+                      12     ; |MTR TERM 1  |OUT1 (PIN 3)   |
+                      13     ; |MTR TERM 2  |OUT2 (PIN 6)   |
+                      14     ;  ---------------------------- 
+0000                  15     ORG 0000H
+                      16     ;------------------------------------------
+                      17     ;  defined constants 
+                      18     ;------------------------------------------
+0000 0E               19     MOTOR_DELAY: DB 14;
+0001 8060             20             SJMP START
+0030                  21     ORG 0030H;
+                      22             ; ROTATE THE MOTOR FOR SOME DELAY THAT SETS IT TO 
+                      23             ; 90 DEGREE OR ANY OTHER ANGLE BY ADJUSTING TIME 
+0030                  24             OPEN_LOCK: 
+0030 C2A2             25                     CLR P2.2
+0032 D2A1             26                     SETB P2.1 ; PORT CONNECTED TO IN1 OF LM
+0034 900000           27                     MOV DPTR , #MOTOR_DELAY
+0037 1144             28                     ACALL DELAY
+0039 22               29                     RET
+                      30                     
+003A                  31             CLOSE_LOCK:
+003A C2A1             32                     CLR P2.1
+003C D2A2             33                     SETB P2.2
+003E 900000           34                     MOV DPTR, #MOTOR_DELAY
+0041 1144             35                     ACALL DELAY
+0043 22               36                     RET
+                      37                     
+0044                  38             DELAY: 
+0044 E4               39                     CLR A
+0045 93               40                     MOVC A , @A+DPTR
+0046 FF               41                     MOV R7, A
+0047                  42             LOOP_1:
+0047 114E             43                     ACALL FU_DELAY
+0049 1F               44                     DEC R7;
+004A BF00FA           45                     CJNE R7,#00,LOOP_1;
+004D 22               46                     RET
+                      47                     
+004E                  48             FU_DELAY:
+004E 758910           49                     MOV TMOD , #00010000B
+0051 7400             50                     MOV A,#00
+0053 F58D             51                     MOV TH1,A
+0055 7400             52                     MOV A,#00
+0057 F58B             53                     MOV TL1,A
+0059 D28E             54                     SETB TR1
+005B 308FFD           55                     STOP: JNB TF1, STOP
+005E C28E             56                     CLR TR1
+0060 C28F             57                     CLR TF1
+A51 MACRO ASSEMBLER  MOTOR_TEST_CODE                                                      03/11/2025 21:45:32 PAGE     2
+
+0062 22               58                     RET
+                      59                     
+0063                  60             START: 
+0063 1130             61                     ACALL OPEN_LOCK;
+0065 113A             62                     ACALL CLOSE_LOCK; 
+0067 80FA             63                     SJMP START;
+                      64                     END
+                                             
+                                             
+A51 MACRO ASSEMBLER  MOTOR_TEST_CODE                                                      03/11/2025 21:45:32 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CLOSE_LOCK . . . .  C ADDR   003AH   A   
+DELAY. . . . . . .  C ADDR   0044H   A   
+FU_DELAY . . . . .  C ADDR   004EH   A   
+LOOP_1 . . . . . .  C ADDR   0047H   A   
+MOTOR_DELAY. . . .  C ADDR   0000H   A   
+OPEN_LOCK. . . . .  C ADDR   0030H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+START. . . . . . .  C ADDR   0063H   A   
+STOP . . . . . . .  C ADDR   005BH   A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

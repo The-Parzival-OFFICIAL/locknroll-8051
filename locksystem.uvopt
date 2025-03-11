@@ -132,7 +132,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDP51</Key>
-          <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=-1,-1,-1,-1,0)(85=-1,-1,-1,-1,0)(5009=-1,-1,-1,-1,0)(5010=-1,-1,-1,-1,0)(5055=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)(92=-1,-1,-1,-1,0)(94=-1,-1,-1,-1,0)(95=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(5008=-1,-1,-1,-1,0)(5057=-1,-1,-1,-1,0)(5003=-1,-1,-1,-1,0)(5101=-1,-1,-1,-1,0)(5061=-1,-1,-1,-1,0)(5054=-1,-1,-1,-1,0)</Name>
+          <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=1253,186,1461,301,1)(85=-1,-1,-1,-1,0)(5009=-1,-1,-1,-1,0)(5010=-1,-1,-1,-1,0)(5055=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)(92=1257,292,1467,567,1)(94=-1,-1,-1,-1,0)(95=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(5008=-1,-1,-1,-1,0)(5057=-1,-1,-1,-1,0)(5003=-1,-1,-1,-1,0)(5101=-1,-1,-1,-1,0)(5061=-1,-1,-1,-1,0)(5054=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
@@ -140,7 +140,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x42</ItemText>
+          <ItemText>0x0000</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -164,7 +164,7 @@
         <AscS3>0</AscS3>
         <aSer3>0</aSer3>
         <eProf>0</eProf>
-        <aLa>0</aLa>
+        <aLa>1</aLa>
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>0</aSer4>
@@ -186,6 +186,13 @@
       <pszMrulep></pszMrulep>
       <pSingCmdsp></pSingCmdsp>
       <pMultCmdsp></pMultCmdsp>
+      <LogicAnalyzers>
+        <Wi>
+          <IntNumber>0</IntNumber>
+          <FirstString>(P2 &amp; 0x4) &gt;&gt; 2</FirstString>
+          <SecondString>0080000000000000000000000000000000E06F400100000000000000000000000000000050320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000001000000000000000000F03F14000000000000000000000000000000000000005B0000FF</SecondString>
+        </Wi>
+      </LogicAnalyzers>
     </TargetOption>
   </Target>
 
@@ -202,8 +209,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\gpt test.a51</PathWithFileName>
-      <FilenameWithoutPath>gpt test.a51</FilenameWithoutPath>
+      <PathWithFileName>.\MOTOR_TEST CODE.a51</PathWithFileName>
+      <FilenameWithoutPath>MOTOR_TEST CODE.a51</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
