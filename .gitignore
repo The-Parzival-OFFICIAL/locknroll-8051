@@ -1,5 +1,36 @@
-Listings
-Objects
-locksystem.uvgui.pkjos
-locksystem.uvopt
-locksystem
+# Keil uVision project files to ignore
+*.uvgui.*
+*.uvopt*
+*.bak
+*.plg
+
+# Build artifacts and intermediate files
+*.lst
+*.map
+*.axf
+*.hex
+*.bin
+*.elf
+*.o
+*.d
+*.dep
+*.lk
+*.sct
+*.crf
+*.lnp
+
+# Output directories
+Listings/
+Objects/
+
+# Ignore user-specific workspace settings
+*.optn
+*.htm
+*.log
+
+# Miscellaneous
+__build/
+*.tmp
+*.swp
+*.swo
+*.swn
