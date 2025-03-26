@@ -1,101 +1,75 @@
 ORG 0000H
-	SJMP START
 
-
-ORG 0030H
-
-; Registers Usage:
-; R0, R1 -> Left half (L)
-; R2, R3 -> Right half (R)
-; R4, R5 -> Round Key (Ki)
-; R6, R7 -> Temporary values
-
-
-START: 
-	MOV DPTR , #KEY
-	MOV R0 , #00H
-	MOV R1 , #00H
-	MOV R2 , #00H 
-	MOV R3 , #00H
-;---------------------------------------------------------------------------------------------------
-;	shit to be encoded 
-;---------------------------------------------------------------------------------------------------
-	MOV R0, #12H   ; L = 0x1234 (Left half of plaintext)
-	MOV R1, #34H
-	MOV R2, #56H   ; R = 0x5678 (Right half of plaintext)
-	MOV R3, #78H
+MOV P1, #0FFH  ; Set P1 as input (default)
+LCALL GET_KEY
+MOV B,A
+ORG 3000H
 	
-	CALL KEY_EXPANSION 
-	CALL ENCRYPTION 
-	SJMP $ 
-;----------------------------------------------------------------------------------------------------
-;-----------------------------
-; SPECK 32/64 ENCRYPTION 
-;-----------------------------
-
-ENCRYPTION:
-	MOV R6, #32 ; number of rounds for 32/64 is 22 
-	ENC_LOOP:
-		CALL LOAD_ROUND_KEY
-		CALL ROUND_FUNCTION 
-		DJNZ R6 , ENC_LOOP
-		RET
-;------------------------------
-; SPECK ROUND FUNCTION
-;------------------------------
-
-ROUND_FUNCTION:
-	MOV A, R3 
-	SWAP A
-	MOV R3,A
+KEYPRESS: 
+	MOV A, P1
 	
-	MOV A,R2
-	XRL A,R0
-	MOV R2,A
-	
-	MOV A, R2
-	ADD A, R0
-	MOV R0, A
-	
-	MOV A , R0 
-	RLC A
-	RLC A
-	RLC A 
-	MOV R0, A 
-	
-	MOV A , R1
-	RLC A 
-	RLC A 
-	RLC A
-	MOV R1,A 
-	RET 
-	
-	
-;--------------------------
-; LOAD ROUND KEY
-;--------------------------
-
-LOAD_ROUND_KEY:
-	MOV A,R4 
-	XRL A, R2
-	MOV R4, A
-	
-	MOV A,R5 
-	XRL A, R3
-	MOV R5, A
-	RET
-; -------------------------
-; Key Expansion
-; -------------------------
-KEY_EXPANSION:
-    MOV R4, #0DEH            ; Example Key Part 1
-    MOV R5, #0ADH            ; Example Key Part 2
+GET_KEY:
+    MOV P1, #0FEH  ; Row 1 low, others high
+    MOV A, P1
+    JB ACC.4, CC1_1
+    MOV A, #01H  ; Key '1'
+    RET
+    CC1_1:JB ACC.5, CC1_2
+    MOV A, #02H  ; Key '2'
+    RET
+    CC1_2:JB ACC.6, CC1_3
+    MOV A, #03H  ; Key '3'
+    RET
+    CC1_3:JB ACC.7, CHECK_ROW2
+    MOV A, #'A'
     RET
 
-; -------------------------
-; Data Section
-; -------------------------
-KEY:
-    DB 0DEH, 0ADH, 0BEH, 0EFH, 0CAH, 0FEH , 0BAH , 0BEH ; 64-bit key
+CHECK_ROW2:
+    MOV P1, #0FDH  ; Row 2 low, others high
+    MOV A, P1
+    JB ACC.4, CC2_1
+    MOV A, #04H  ; Key '4'
+    RET
+    CC2_1:JB ACC.5, CC2_2
+    MOV A, #05H  ; Key '5'
+    RET
+    CC2_2:JB ACC.6, CC2_3
+    MOV A, #06H  ; Key '6'
+    RET
+    CC2_3:JB ACC.7, CHECK_ROW3
+    MOV A, #'B'
+    RET
+
+CHECK_ROW3:
+    MOV P1, #0FBH  ; Row 3 low, others high
+    MOV A, P1
+    JB ACC.4, CC3_1
+    MOV A, #07H  ; Key '7'
+    RET
+CC3_1:JB ACC.5, CC3_2
+    MOV A, #08H  ; Key '8'
+    RET
+CC3_2:JB ACC.6, CC3_3
+    MOV A, #09H  ; Key '9'
+    RET
+CC3_3:JB ACC.7, CHECK_ROW4
+    MOV A, #'C'
+    RET
+
+CHECK_ROW4:
+    MOV P1, #0F7H  ; Row 4 low, others high
+    MOV A, P1
+    JB ACC.4, CC4_1; No key pressed, restart scan
+    MOV A, #'*'
+    RET
+    CC4_1:JB ACC.5, CC4_2
+    MOV A, #00H  ; Key '0'
+    RET
+    CC4_2:JB ACC.6, CC4_3
+    MOV A, #'#'
+    RET
+    CC4_3:JB ACC.7, GET_KEY
+    MOV A, #'D'
+    RET
 
 END

@@ -27,8 +27,10 @@ ORG 0000H
 ;  defined constants 
 ;------------------------------------------
 MOTOR_DELAY: DB 28;  multiple of 14 to add seconds delay ; 1 here is 0.0711 seconds
+	mov p2 , #00h
 	SJMP START
 ORG 0030H;
+	
 	; ROTATE THE MOTOR FOR SOME DELAY THAT SETS IT TO 
 	; 90 DEGREE OR ANY OTHER ANGLE BY ADJUSTING TIME 
 	OPEN_LOCK: 
@@ -36,6 +38,7 @@ ORG 0030H;
 		SETB P2.1 ; PORT CONNECTED TO IN1 OF LM
 		MOV DPTR , #MOTOR_DELAY
 		ACALL DELAY
+		CLR P2.1
 		RET
 		
 	CLOSE_LOCK:
@@ -43,6 +46,7 @@ ORG 0030H;
 		SETB P2.2
 		MOV DPTR, #MOTOR_DELAY
 		ACALL DELAY
+		CLR P2.2
 		RET
 		
 	DELAY: 
@@ -62,15 +66,17 @@ ORG 0030H;
 		MOV A,#00
 		MOV TL1,A
 		SETB TR1
-		STOP: JNB TF1, STOP
+
+STOP: JNB TF1, STOP
 		CLR TR1
 		CLR TF1
 		RET
 		
 	START: 
+		setb P2.0
 		ACALL OPEN_LOCK;
 		ACALL CLOSE_LOCK; 
-		;SJMP START;
+		SJMP START;
 		END
 		
 		
