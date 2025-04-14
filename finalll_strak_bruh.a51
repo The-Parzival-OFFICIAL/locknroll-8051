@@ -1,10 +1,10 @@
-
+DB '.', '.', '-', '.', ' ', '-', '-', '-', '-', ' ', '-', '-', '-', '-', 00H
 
 
 ; ----- Hardware Definitions -----
 LCD_DATA_PORT EQU P1
 KEYPAD_PORT EQU P2
-LCD_CTRL_PORT EQU P3
+MISC_PORT EQU P3
 RESET_BUTTON EQU P3.2 ; INT0
 BUZZER EQU P3.3
 SERVO EQU P3.4
@@ -43,6 +43,7 @@ ORG 0003H ; INT0 (P3.2)
 
 ; ----- Code Start -----
 START:
+	MOV LOCKED_FLAG , #00H
     ACALL INIT_PORTS
     ACALL INIT_LCD
     ACALL INIT_DEFAULT_PASSWORD
@@ -83,7 +84,7 @@ LOCKED_MODE:
 INIT_PORTS:
 
     MOV LCD_DATA_PORT, #00H
-    MOV LCD_CTRL_PORT, #00000100B
+    MOV MISC_PORT, #00000100B
     MOV KEYPAD_PORT, #0F0H
     CLR BUZZER
     CLR SERVO
@@ -118,7 +119,7 @@ COPY_DEFAULT:
     DJNZ R2, COPY_DEFAULT
     RET
 
-DEFAULT_PASS: DB 0DEH XOR '1', 0DEH XOR '2', 0DEH XOR '3', 0DEH XOR '4'
+DEFAULT_PASS: DB 0DEH XOR '1', 0DEH XOR '4', 0DEH XOR '6', 0DEH XOR '5'
 
 ; ----- LCD Subroutines -----
 CMD:
@@ -152,6 +153,7 @@ LCD_STRING_END:
 DISPLAY_PASSWORD_PROMPT:
     MOV A, #LCD_CLEAR
     ACALL CMD
+	MOV A, #LCD_HOME
     MOV DPTR, #PASSWORD_PROMPT_MSG
     ACALL LCD_STRING
     MOV A, #LCD_SECOND_LINE
@@ -453,5 +455,8 @@ ACCESS_GRANTED_MSG: DB "Access Granted!", 0
 ACCESS_DENIED_MSG:  DB "Access Denied!", 0
 LOCKED_OUT_MSG:     DB "Locked Out!", 0
 RESET_PROMPT_MSG:   DB "Reset Password:", 0
+ORG 0F00H  ; arbitrary unused memory section
 
+EasterEgg:
+    DB "R3JlZyB3YXMgaGVyZQ==", 00H
 END
