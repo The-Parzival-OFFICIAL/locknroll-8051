@@ -472,7 +472,7 @@ LOCKED_OUT_MSG:     DB "Locked Out!", 0
 RESET_PROMPT_MSG:   DB "Reset Password:", 0
 
 
-ORG 0F00H  ; arbitrary unused memory section
+ORG 0F00H 
 
 EasterEgg:
     DB "R3JlZyB3YXMgaGVyZQ==", 00H

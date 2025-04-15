@@ -9,7 +9,7 @@
 *.lst
 *.map
 *.axf
-*.hex
+#*.hex
 *.bin
 *.elf
 *.o
