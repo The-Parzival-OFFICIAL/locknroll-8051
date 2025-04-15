@@ -36,7 +36,7 @@ Welcome to the source code of a **password-protected door lock system** built us
 |------------------|---------------------|
 | LCD Data         | Port 1              |
 | LCD Control      | RS: P3.5, RW: P3.6, EN: P3.7 |
-| Keypad (4x4)     | Port 0              |
+| Keypad (4x4)     | Port 2              |
 | Push Button (INT0) | P3.2               |
 | Buzzer           | P3.3                |
 | Servo Motor      | P3.4                |
