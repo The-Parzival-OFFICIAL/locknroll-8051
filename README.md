@@ -60,4 +60,4 @@ Welcome to the source code of a **password-protected door lock system** built us
 ## 📃 License
 
 MIT License. Fork it, build it, improve it 
->>>>>>> 5040cbf7b89d5e013ce4fcde82e0324c0b71ac69
+
